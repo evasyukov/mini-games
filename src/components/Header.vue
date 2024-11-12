@@ -56,9 +56,10 @@ const switcherList = () => {
 
       font-size: 16px;
       color: #000;
+      background: none;
 
       border: 3px solid #000;
-      background: none;
+    
 
       cursor: pointer;
 
