@@ -1,15 +1,18 @@
 <template>
   <div class="header">
-    <h1>Мини игры</h1>
+    <div class="header_title">
+      <h1>Мини игры</h1>
+    </div>
 
-    <div class="header_game-list">
-      <button class="button" @click="switcherList">Список игр</button>
+    <div class="header_list" :class="{ active: isActive }">
+      <button @click="switcherList">
+        {{ isActive ? "Скрыть" : "Список игр" }}
+      </button>
 
-      <!-- список игр -->
-      <ul class="list" id="list" :class="{ active: isActive }">
-        <li class="list-item">
-          <div class="list-link">Найди число</div>
-        </li>
+      <ul v-show="isActive">
+        <li><router-link to="/game/1">Игра 1</router-link></li>
+        <li><router-link to="/game/2">Игра 2</router-link></li>
+        <li><router-link to="/game/3">Игра 3</router-link></li>
       </ul>
     </div>
   </div>
@@ -28,49 +31,72 @@ const switcherList = () => {
 <style lang="scss" scoped>
 .header {
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  border-bottom: 3px solid #000;
 
   width: 100%;
 
-  &_game-list {
-    .button {
-      inline-size: 100%;
-      padding: 0.5lh 1.5lh;
-      font: inherit;
-      color: currentColor;
-      background-color: #f28482;
-      border: none;
+  &_title {
+    border: 1px 1px 1px 1px #000;
+    border-radius: 5px;
+  }
+
+  &_list {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    button {
+      padding: 10px 20px;
+
+      font-size: 16px;
+      color: #000;
+
+      border: 3px solid #000;
+      background: none;
+
       cursor: pointer;
 
+      transition: all 0.5s ease 0s;
+
       &:hover {
-        background-color: #f5cac3;
+        background: #000;
+        color: #fff;
       }
     }
 
-    .list {
-      margin-block-start: 0.5lh;
-      background-color: #f28482;
-      overflow: hidden;
-      line-height: 0;
-      transition: line-height 0.5s, color 0.5s;
+    ul {
+      position: absolute;
+      right: 120px;
 
-      &.active {
-        line-height: 1.2;
-        color: currentColor;
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+
+      :hover {
+        background-color: #000;
+        color: #fff;
       }
 
-      .list-item {
-        overflow: hidden;
+      li {
+        height: 40px;
+        width: max-content;
 
-        .list-link {
-          display: block;
-          padding: 0.5lh;
+        padding: 0px 20px;
 
-          :hover {
-            background-color: #f5cac3;
-          }
-        }
+        background-color: #00000018;
+        border: 1px solid #000;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        cursor: pointer;
       }
     }
   }
