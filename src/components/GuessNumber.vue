@@ -9,25 +9,72 @@
     <div class="guess-number_game">
       <div class="gap-input">
         Введите промежуток от
-        <input type="number" min="0" /> до
-        <input type="number" />
-        <button style="margin-left: 230px;">Начать</button>
+        <input v-model="min" type="number" min="0" /> до
+        <input v-model="max" type="number" />
+        <button
+          style="margin-left: 230px"
+          @click="startGame()"
+          :disabled="visibleGame"
+        >
+          Начать
+        </button>
       </div>
 
-      <div class="main-game">
+      <div class="main-game" v-show="visibleGame">
         <p>Введите загаданное число:</p>
-        <input type="number" />
-        <button>Проверить</button>
+        <input v-model="inputNumber" type="number" max="20"/>
+        <button @click="chekNumber()">Проверить</button>
 
         <p>Статус: {{ status }}</p>
-        <p>Количество очков: {{ score }}</p>
+        <p>Cчет: {{ score }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue"
+
+const visibleGame = ref(false)
+
+const status = ref("") // значение статуса
+const score = ref(20) // значение счета
+const record = ref() // значение рекорда
+
+const min = ref(1) // значение минимального значения
+const max = ref(20) // значение максимального значения
+
+const inputNumber = ref() // значение введенного числа
+const wantedNumber = ref(15) // значение загаданного числа
+
+// функция для старта игры
+const startGame = () => {
+
+  if (min.value > max.value || min.value < 0) { 
+    alert("Некорректные значения границ промежутка")
+    return
+  }
+
+  wantedNumber.value = Math.floor(
+    Math.random() * (max.value - min.value + 1) + min.value
+  )
+
+  visibleGame.value = true
+  status.value = "Игра началась"
+}
+
+const chekNumber = () => {
+  if (inputNumber.value < wantedNumber.value) {
+    status.value = "Загаданное число меньше"
+    score.value--
+  } else if (inputNumber.value > wantedNumber.value) {
+    status.value = "Загаданное число больше"
+    score.value--
+  } else {
+    status.value = "Вы угадали!"
+    visibleGame.value = false
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -37,7 +84,7 @@ import { ref } from 'vue';
   }
 
   &_game {
-    border: 1px solid #000;
+    // border: 1px solid #000;
     padding: 20px;
 
     .gap-input {
@@ -93,6 +140,16 @@ button {
   cursor: pointer;
 
   transition: all 0.5s ease 0s;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background: none;
+      color: #000;
+    }
+  }
 
   &:hover {
     background: #000;
