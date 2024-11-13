@@ -21,6 +21,10 @@
 <script setup>
 import { ref } from "vue"
 
+const gameList = defineProps({
+  gameList: Array,
+})
+
 const isActive = ref(false)
 
 const switcherList = () => {
