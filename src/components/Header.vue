@@ -10,18 +10,20 @@
       </button>
 
       <ul v-show="isActive">
-        <li><router-link to="/game/1">Игра 1</router-link></li>
-        <li><router-link to="/game/2">Игра 2</router-link></li>
-        <li><router-link to="/game/3">Игра 3</router-link></li>
+        <li v-for="game in gameList" :key="game.id">
+          <router-link>
+            {{ game.title }}
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, defineProps } from "vue"
 
-const gameList = defineProps({
+defineProps({
   gameList: Array,
 })
 
@@ -63,7 +65,6 @@ const switcherList = () => {
       background: none;
 
       border: 3px solid #000;
-    
 
       cursor: pointer;
 

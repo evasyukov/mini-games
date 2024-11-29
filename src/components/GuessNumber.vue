@@ -1,38 +1,34 @@
 <template>
   <div class="guess-number">
-    <!-- title  -->
-    <div class="guess-number_title">
-      <!-- <h1>Найди число</h1> -->
+    <div class="guess-number__input-gap">
+      Введите промежуток от
+      <input v-model="min" type="number" min="0" /> до
+      <input v-model="max" type="number" />
     </div>
 
-    <!-- game  -->
-    <div class="guess-number_game">
-      <div class="gap-input">
-        Введите промежуток от
-        <input v-model="min" type="number" min="0" /> до
-        <input v-model="max" type="number" />
+    <div class="guess-number__game">
+      <button @click="startGame()" :disabled="visibleGame">Начать</button>
 
-        <button
-          style="margin-left: 230px"
-          @click="startGame()"
-          :disabled="visibleGame"
-        >
-          Начать
-        </button>
-
-        <p style="font-size: 17px; font-weight: 600">Рекорд: {{ record }}</p>
-      </div>
-
-      <div class="main-game" v-show="visibleGame">
+      <div class="guess-number__start" v-show="visibleGame">
         <p>Введите загаданное число:</p>
-        <input v-model="inputNumber" type="number" max="20" />
+        <input v-model="inputNumber" type="number" />
         <button @click="chekNumber()">Проверить</button>
       </div>
 
-      <div class="game-stats" v-show="status.length > 0">
+      <div class="guess-number__stats" v-show="visibleGame">
         <p>{{ status }}</p>
         <p>Cчет: {{ score }}</p>
       </div>
+    </div>
+
+    <div class="guess-number__result">
+      <p>Результаты последних игр:</p>
+      
+      <ul>
+        <li v-for="result in results" :key="result.id">
+          {{ result.message }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -42,15 +38,15 @@ import { ref } from "vue"
 
 const visibleGame = ref(false)
 
-const status = ref("") // значение статуса
-const score = ref(20) // значение счета
-const record = ref(0) // значение рекорда
+const status = ref("") // статус игры
+const score = ref(20) // счет
+const results = ref([]) // последние результаты
 
-const min = ref(1) // значение минимального значения
-const max = ref(20) // значение максимального значения
+const min = ref(1) //  минимальное значение
+const max = ref(20) //  максимальное значение
 
-const inputNumber = ref() // значение введенного числа
-const wantedNumber = ref() // значение загаданного числа
+const inputNumber = ref() //  введенное число
+const wantedNumber = ref() //  загаданное число
 
 // функция для старта игры
 const startGame = () => {
@@ -62,13 +58,15 @@ const startGame = () => {
   wantedNumber.value = Math.floor(
     Math.random() * (max.value - min.value + 1) + min.value
   )
-  
+
+  inputNumber.value = ""
+  score.value = 20
   visibleGame.value = true
   status.value = "Игра началась"
 }
 
 const chekNumber = () => {
-  if (inputNumber.value) {
+  if (inputNumber.value >= min.value && inputNumber.value <= max.value) {
     if (inputNumber.value > wantedNumber.value) {
       status.value = "Загаданное число меньше"
       score.value--
@@ -78,66 +76,122 @@ const chekNumber = () => {
     } else {
       status.value = "Вы угадали! Поздравляем!"
       visibleGame.value = false
-    }
-  } else {
-    // alert("Введите число")
-  }
 
-  record.value = Math.max(record.value, score.value)
+      results.value.unshift({
+        id: Date.now(),
+        message: `Набрано ${score.value} очков, на промежутке от ${min.value} до ${max.value}`,
+      })
+    }
+  } 
 }
 </script>
 
 <style scoped lang="scss">
 .guess-number {
-  &_title {
-    margin-bottom: 50px;
+  height: 500px;
+
+  display: flex;
+  justify-content: space-around;
+
+  border: 1px solid #000;
+  box-shadow: inset 0px 0px 6px 2px #000;
+
+  padding: 20px;
+
+  &__input-gap {
+    width: 250px;
+    font-size: 18px;
+
+    input {
+      width: 50px;
+
+      border: none;
+      border-bottom: 2px solid #000;
+
+      text-align: center;
+      font-size: 18px;
+      font-weight: 800;
+    }
   }
 
-  &_game {
-    border: 1px solid #000;
-    height: 500px;
-    padding: 20px;
-    display: grid;
-    // box-shadow: 0 0 10px 0 #000;
+  &__game {
+    width: 720px;
 
-    .gap-input {
-      font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-      input {
-        width: 50px;
+    gap: 20px;
 
-        border: none;
-        border-bottom: 2px solid #000;
+    input {
+      border: 1px solid #000;
+      font-size: 26px;
 
-        text-align: center;
-        font-size: 18px;
+      &:user-invalid {
+        color: red;
+      }
+    }
+  }
+
+  &__start {
+    width: 80%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__stats {
+    margin-top: 50px;
+  }
+
+  &__result {
+    width: 250px;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 12px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    scrollbar-width: 5px;
+    scrollbar-color: #000;
+    scrollbar-gutter: stable;
+
+    p {
+      font-size: 16px;
+    }
+
+    ul {
+      list-style-type: decimal-leading-zero;
+      font-size: 13px;
+      list-style-position: inside;
+
+      padding: 0;
+
+      li {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #000;
+
+        &::marker {
+          font-size: 14px;
+          font-weight: 700;
+        }
       }
     }
 
-    .main-game {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      gap: 20px;
-      margin-top: 30px;
-
-      input {
-        border: 1px solid #000;
-        font-size: 26px;
-      }
+    &::-webkit-scrollbar {
+      width: 5px;
+      border: 1px solid #000;
+      border-radius: 50px;
     }
 
-    .game-stats {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-
-      p:first-of-type(1) {
-        font-size: 20px;
-        color: aquamarine;
-      }
+    &::-webkit-scrollbar-thumb {
+      background: #000000;
+      border-radius: 50px;
     }
   }
 }
