@@ -5,17 +5,9 @@
     </div>
 
     <div class="header_list" :class="{ active: isActive }">
-      <button @click="switcherList">
-        {{ isActive ? "Скрыть" : "Список игр" }}
-      </button>
-
-      <ul v-show="isActive">
-        <li v-for="game in gameList" :key="game.id">
-          <router-link>
-            {{ game.title }}
-          </router-link>
-        </li>
-      </ul>
+      <router-link to="/">
+        <button @click="switcherList">На главную</button>
+      </router-link>
     </div>
   </div>
 </template>
