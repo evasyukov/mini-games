@@ -208,18 +208,6 @@ p {
 }
 
 button {
-  padding: 10px 20px;
-
-  font-size: 16px;
-  color: #000;
-  background: none;
-
-  border: 3px solid #000;
-
-  cursor: pointer;
-
-  transition: all 0.5s ease 0s;
-
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
@@ -228,11 +216,6 @@ button {
       background: none;
       color: #000;
     }
-  }
-
-  &:hover {
-    background: #000;
-    color: #fff;
   }
 }
 </style>

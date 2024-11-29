@@ -1,7 +1,4 @@
 <template>
-  <!-- <router-link to="/guess-number">Найди число</router-link>
-  <RouterLink to="/gallows">Виселица</RouterLink> -->
-
   <div class="home">
     <div class="home__title">
       <h1>Добро пожаловать!</h1>
@@ -13,8 +10,8 @@
 
     <div class="home__games">
       <div class="home__game" v-for="game in gameList" :key="game.id">
-        <p class="name"> {{ game.name }}</p>
-        <router-link :to="`/${ game.path}`">
+        <p class="name">{{ game.name }}</p>
+        <router-link :to="`/${game.path}`">
           <button @click="switcherList">Играть</button>
         </router-link>
       </div>
@@ -77,21 +74,6 @@ const gameList = ref([
 
     button {
       padding: 5px 20px;
-
-      font-size: 16px;
-      color: #000;
-      background: none;
-
-      border: 1px solid #000;
-
-      cursor: pointer;
-
-      transition: all 0.5s ease 0s;
-
-      &:hover {
-        background: #000;
-        color: #fff;
-      }
     }
   }
 }

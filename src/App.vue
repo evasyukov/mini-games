@@ -1,5 +1,5 @@
 <template>
-  <Header :gameList="gameList" />
+  <Header />
   <router-view></router-view>
 </template>
 
