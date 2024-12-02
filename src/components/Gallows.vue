@@ -11,12 +11,17 @@
 
     <div class="gallows__game" v-show="startGame">
       <div class="gallows__human" v-if="opponent === 'human'">
-        <h1>Игрок</h1>
+        <h3>Введите слово</h3>
+        <input type="text" v-model="word" />
+        <button>Начать</button>
       </div>
 
       <div class="gallows__computer" v-if="opponent === 'computer'">
-        <h1>Компьютер</h1>  
+        <h1>Компьютер</h1>
       </div>
+
+
+
     </div>
   </div>
 </template>
@@ -26,10 +31,13 @@ import { ref } from "vue"
 
 const opponent = ref()
 const startGame = ref(false)
+
+const word = ref()
 </script>
 
 <style lang="scss" scoped>
 .gallows {
+  width: 100%;
   height: 500px;
 
   display: flex;
@@ -46,6 +54,28 @@ const startGame = ref(false)
     button {
       font-size: 16px;
       transition: none;
+    }
+  }
+
+  &__game {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  &__human {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  
+    input {
+      width: 300px;
     }
   }
 }

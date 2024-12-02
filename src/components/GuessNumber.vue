@@ -130,12 +130,7 @@ const resultValue = () => {
     gap: 20px;
 
     input {
-      border: 1px solid #000;
       font-size: 26px;
-
-      &:user-invalid {
-        color: red;
-      }
     }
   }
 
@@ -168,7 +163,8 @@ const resultValue = () => {
     scrollbar-gutter: stable;
 
     p {
-      font-size: 16px;
+      font-size: 14px;
+      margin: 0;
     }
 
     ul {
@@ -200,17 +196,6 @@ const resultValue = () => {
       border-radius: 50px;
     }
   }
-}
-
-input {
-  color: #000;
-  background-color: transparent;
-  outline: none;
-  text-align: center;
-}
-p {
-  font-size: 24px;
-  margin: 0;
 }
 
 button {

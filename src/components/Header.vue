@@ -5,7 +5,7 @@
     </div>
 
     <router-link to="/">
-      <button @click="switcherList">На главную</button>
+      <button>На главную</button>
     </router-link>
   </div>
 </template>
@@ -15,6 +15,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  margin-bottom: 40px;
 
   border-bottom: 3px solid #000;
 
