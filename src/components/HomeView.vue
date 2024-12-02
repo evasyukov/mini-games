@@ -5,7 +5,7 @@
     </div>
 
     <div class="home__header">
-      <h2>Список игр</h2>
+      <h1>Список игр</h1>
     </div>
 
     <div class="home__games">
@@ -42,6 +42,52 @@ const gameList = ref([
 
   &__title {
     text-align: center;
+
+    position: relative;
+    overflow: hidden;
+
+    user-select: none;
+
+    h1 {
+      margin: 0;
+
+
+      display: inline-block;
+      white-space: nowrap;
+      animation: scrollText 7s linear infinite, changeColor 2s linear infinite;;
+    }
+
+    @keyframes scrollText {
+      0% {
+        transform: translateX(-180%);
+      }
+      100% {
+        transform: translateX(180%);
+      }
+    }
+    @keyframes changeColor {
+      0% {
+        color: rgb(255, 166, 0);
+      }
+      16% {
+        color: #ffff00; 
+      }
+      32% {
+        color: rgb(0, 255, 0); 
+      }
+      48% {
+        color: #00ffff; 
+      }
+      64% {
+        color: #0000ff;
+      }
+      80% {
+        color: #ff00ff;
+      }
+      100% {
+        color: rgb(255, 0, 0);
+      }
+    }
   }
 
   &__header {
