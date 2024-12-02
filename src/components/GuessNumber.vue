@@ -1,9 +1,11 @@
 <template>
   <div class="guess-number">
     <div class="guess-number__input-gap">
-      Введите промежуток от
-      <input v-model="min" type="number" min="0" /> до
-      <input v-model="max" type="number" />
+      <div v-show="!visibleGame">
+        Введите промежуток от
+        <input v-model="min" type="number" min="0" /> до
+        <input v-model="max" type="number" />
+      </div>
     </div>
 
     <div class="guess-number__game">
@@ -15,15 +17,15 @@
         <button @click="chekNumber()">Проверить</button>
       </div>
 
-      <div class="guess-number__stats" v-show="visibleGame">
+      <div class="guess-number__stats" v-show="status.length > 0">
         <p>{{ status }}</p>
-        <p>Cчет: {{ score }}</p>
+        <p v-show="visibleGame.value === false">Cчет: {{ score }}</p>
       </div>
     </div>
 
     <div class="guess-number__result">
       <p>Результаты последних игр:</p>
-      
+
       <ul>
         <li v-for="result in results" :key="result.id">
           {{ result.message }}
@@ -77,12 +79,16 @@ const chekNumber = () => {
       status.value = "Вы угадали! Поздравляем!"
       visibleGame.value = false
 
-      results.value.unshift({
-        id: Date.now(),
-        message: `Набрано ${score.value} очков, на промежутке от ${min.value} до ${max.value}`,
-      })
+      resultValue()
     }
-  } 
+  }
+}
+
+const resultValue = () => {
+  results.value.unshift({
+    id: Date.now(),
+    message: `Набрано ${score.value} очков, на промежутке от ${min.value} до ${max.value}`,
+  })
 }
 </script>
 
